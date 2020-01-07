@@ -89,6 +89,9 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 AUTH_USER_MODEL = 'MoneyManagerApp.User'
+LOGIN_REDIRECT_URL = 'dashboard'
+LOGOUT_REDIRECT_URL = 'login'
+LOGIN_URL= 'signup'
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/

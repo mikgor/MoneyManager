@@ -17,7 +17,7 @@ class User(AbstractUser):
 
 class Account(models.Model):
     name = models.CharField(_('Account name'), max_length=10)
-    owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='accounts')
     balance = models.DecimalField(_('Value'), max_digits=8, decimal_places=2)
     currency = models.ForeignKey(Currency, on_delete=models.CASCADE)
     BANKACCOUNT = 'BA'
@@ -39,7 +39,7 @@ class Account(models.Model):
             self.save()
 
 class Transaction(models.Model):
-    account = models.ForeignKey(Account, on_delete=models.CASCADE)
+    account = models.ForeignKey(Account, on_delete=models.CASCADE, related_name='transactions')
     date = models.DateTimeField(_('Transaction date'))
     category = models.CharField(_('Transaction category'), max_length=15)
     value = models.DecimalField(_('Transaction value'), max_digits=8, decimal_places=2)

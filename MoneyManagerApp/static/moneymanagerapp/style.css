@@ -1,0 +1,38 @@
+body {
+	font-family: 'Roboto', sans-serif;
+	text-align: center;
+	margin: 0;
+	color: #313131;
+	min-height: 100%;
+}
+
+form ul {
+    margin-left: 130px;
+}
+
+form ul li, form .helptext {
+    color: gray;
+    font-size: 12px;
+}
+
+form label {
+    width: 150px;
+    display: inline-block;
+}
+
+form input[type="submit"] {
+	display: inline-block;
+	margin-left: 10px;
+	padding: 5px;
+	border-radius: 6px;
+	border: 2px solid #ccc;
+	color: black;
+	cursor: pointer;
+	background-color: white;
+}
+
+form input, select {
+	padding: 5px;
+	border-radius: 4px;
+	border: 2px solid #ccc;
+}
