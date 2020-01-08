@@ -6,33 +6,51 @@ body {
 	min-height: 100%;
 }
 
+form {
+    width: 400px;
+	 margin: 0 auto;
+}
+
 form ul {
-    margin-left: 130px;
+
 }
 
 form ul li, form .helptext {
     color: gray;
     font-size: 12px;
+	 display: block;
+	 margin-top: 5px;
+	 text-align: right;
+	 margin-right: 15px;
 }
 
 form label {
     width: 150px;
     display: inline-block;
+	 text-align: left;
 }
 
-form input[type="submit"] {
-	display: inline-block;
-	margin-left: 10px;
-	padding: 5px;
-	border-radius: 6px;
-	border: 2px solid #ccc;
-	color: black;
-	cursor: pointer;
-	background-color: white;
-}
 
 form input, select {
 	padding: 5px;
 	border-radius: 4px;
 	border: 2px solid #ccc;
+}
+
+form input {
+    width: 200px;
+}
+
+form select {
+    width: 214px;
+}
+
+input[type="button"],input[type="submit"] {
+	padding: 8px;
+	border-radius: 6px;
+	background-color: black;
+	border-color: black;
+	cursor: pointer;
+	color: white;
+	font-weight: bold;
 }

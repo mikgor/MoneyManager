@@ -1,12 +1,12 @@
 {% extends 'moneymanagerapp/base.html' %}
 {% load i18n %}
-{% block title %}{% trans "Log in" %}{% endblock %}
+{% block title %}{% trans "Create account" %}{% endblock %}
 
 {% block content %}
-  <h2>{% trans "Log in" %}</h2>
+  <h2>{% trans "Create account" %}</h2>
   <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
-    <input type="submit" value="{% trans "Sign in" %}"></input>
+    <input type="submit" value="{% trans "Create" %}"></input>
   </form>
 {% endblock %}

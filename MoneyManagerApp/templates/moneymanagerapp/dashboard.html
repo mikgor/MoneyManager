@@ -2,5 +2,12 @@
 {% load i18n %}
 {% block title %}{% trans "Dashboard" %}{% endblock %}
 {% block content %}
-
+<a href="{% url 'AccountCreateView' %}" ><input type="button" value="{% trans "Create account" %}"></a>
+<a href="{% url 'TransactionCreateView' %}" ><input type="button" value="{% trans "Create transaction" %}"></a>
+{% for account in account_list %}
+<div>{{ account.name }} {{ account.print_balance }}</div>
+{% for transaction in account.transactions.all %}
+<div>{{ transaction.type }} {{ transaction.print_value }}</div>
+{% endfor %}
+{% endfor %}
 {% endblock %}
