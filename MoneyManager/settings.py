@@ -1,5 +1,6 @@
 import os
 from .local_settings import *
+from django.utils.translation import ugettext_lazy as _
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -91,10 +92,45 @@ AUTH_PASSWORD_VALIDATORS = [
 AUTH_USER_MODEL = 'MoneyManagerApp.User'
 LOGIN_REDIRECT_URL = 'DashboardView'
 LOGOUT_REDIRECT_URL = 'LoginView'
-LOGIN_URL= 'SignupView'
+LOGIN_URL= 'LoginView'
 
-# Internationalization
-# https://docs.djangoproject.com/en/2.0/topics/i18n/
+INCOME_CATEGORY_CHOICES = (
+    ('IIL', _('Initial')), # Can't be moved; not sellectable
+    ('ISY', _('Salary')),
+    ('IPN', _('Pension')),
+    ('IBS', _('Bonds')),
+    ('IDS', _('Dividends')),
+    ('IGF', _('Gift')),
+    ('IGT', _('Grant')),
+    ('IIT', _('Interest')),
+    ('IOF', _('Offer')),
+    ('IPE', _('Prize')),
+    ('IRD', _('Refund')),
+    ('IRL', _('Rental')),
+    ('ISE', _('Sale')),
+    ('ITR', _('Transfer')),
+    ('IOR', _('Other')),
+)
+
+OUTCOME_CATEGORY_CHOICES = (
+    ('OFD', _('Food')),
+    ('OBS', _('Bills')),
+    ('OTN', _('Tuition')),
+    ('OHD', _('Household')),
+    ('OAL', _('Apparel')),
+    ('OCE', _('Culture')),
+    ('OEN', _('Education')),
+    ('OES', _('Electronics')),
+    ('OEM', _('Entertainment')),
+    ('OHH', _('Health')),
+    ('IGF', _('Gift')),
+    ('OIT', _('Installment')),
+    ('OLN', _('Loan')),
+    ('OHY', _('Hobby')),
+    ('OTT', _('Transportation')),
+    ('OTR', _('Transfer')),
+    ('OOR', _('Other')),
+)
 
 LANGUAGE_CODE = 'en-us'
 

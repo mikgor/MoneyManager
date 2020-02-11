@@ -3,7 +3,7 @@
 {% block title %}{% trans "Create transaction" %}{% endblock %}
 
 {% block content %}
-  <h2>{% trans "Create transaction" %}</h2>
+  <h2>{% blocktrans with transaction_type=view.kwargs.type %}Create {{ transaction_type }} transaction{% endblocktrans %}</h2>
   <form method="post">
     {% csrf_token %}
     {{ form.as_p }}

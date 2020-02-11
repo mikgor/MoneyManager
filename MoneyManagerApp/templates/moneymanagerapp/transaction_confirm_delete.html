@@ -1,0 +1,13 @@
+{% extends 'moneymanagerapp/base.html' %}
+{% load static %}
+{% load i18n %}
+{% block title %}
+{% trans "Delete transaction" %}
+{% endblock title %}
+{% block content %}
+<form method="post">{% csrf_token %}
+   <h2>{% trans "Delete transaction" %}</h2>
+    <p>{% trans "Are you sure you want to delete transaction" %} <b>{{ object.details }} ({{ object.print_value }})</b>?</p>
+    <input type="submit" value="{% trans "Confirm" %}"/>
+</form>
+{% endblock content %}

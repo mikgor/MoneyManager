@@ -30,7 +30,6 @@ form label {
 	 text-align: left;
 }
 
-
 form input, select {
 	padding: 5px;
 	border-radius: 4px;
@@ -53,4 +52,11 @@ input[type="button"],input[type="submit"] {
 	cursor: pointer;
 	color: white;
 	font-weight: bold;
+}
+
+.transaction {
+	padding: 12px;
+	margin-top: 11px;
+	font-size: 19px;
+	background-color: #f9f9f9;
 }

@@ -2,12 +2,13 @@
 {% load i18n %}
 {% block title %}{% trans "Dashboard" %}{% endblock %}
 {% block content %}
-<a href="{% url 'AccountCreateView' %}" ><input type="button" value="{% trans "Create account" %}"></a>
-<a href="{% url 'TransactionCreateView' %}" ><input type="button" value="{% trans "Create transaction" %}"></a>
+<a href="{% url 'AccountCreateView' %}" ><input type="button" value="{% trans 'Create account' %}"></a>
+<a href="{% url 'TransactionCreateView' type='income' %}" ><input type="button" value="{% trans 'Add income' %}"></a>
+<a href="{% url 'TransactionCreateView' type='outcome' %}" ><input type="button" value="{% trans 'Add outcome' %}"></a>
 {% for account in account_list %}
-<div>{{ account.name }} {{ account.print_balance }}</div>
-{% for transaction in account.transactions.all %}
-<div>{{ transaction.type }} {{ transaction.print_value }}</div>
+<div>{{ account.name }} {{ account.print_balance }} <a href="{% url 'AccountDeleteView' account.id %}" ><input type="button" value="{% trans 'Delete account' %}"></a></div>
+{% for transaction in account.transactions.all reversed %}
+<div class="transaction">{{ transaction.date|date:'Y-m-d' }} {{ transaction.get_category_display }} <span style="color:{% if transaction.type == 'I' %} green {% else %} red {% endif %};">{{ transaction.print_value }}</span> {{ transaction.details }} <a href="{% url 'TransactionDeleteView' transaction.id %}" ><input type="button" value="{% trans 'Delete transaction' %}"></a></div>
 {% endfor %}
 {% endfor %}
 {% endblock %}
