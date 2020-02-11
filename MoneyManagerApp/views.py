@@ -38,9 +38,3 @@ class TransactionCreateView(CreateView):
     form_class = TransactionCreationForm
     template_name = 'moneymanagerapp/transaction_form.html'
     success_url = reverse_lazy('DashboardView')
-
-    def form_valid(self, form):
-        self.object = form.save(commit=False)
-        self.object.owner = self.request.user
-        self.object.save()
-        return HttpResponseRedirect(self.get_success_url())
