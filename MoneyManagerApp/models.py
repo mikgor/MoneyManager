@@ -51,12 +51,17 @@ class Account(models.Model):
 
     def set_balance_transaction_deleted(self, transaction):
         if transaction.account.id == self.id:
-            self.balance -= transaction.amount
+            type = transaction.type
+            if type == 'I':
+                self.balance -= transaction.amount
+            elif type == 'O':
+                self.balance += transaction.amount
+            else:
+                pass
             self.save()
 
     def __str__(self):
         return '%s (%s)' % (self.name, self.print_balance())
-
 
 class Transaction(models.Model):
     account = models.ForeignKey(Account, on_delete=models.CASCADE, related_name='transactions', default='')
