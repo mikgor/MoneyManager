@@ -6,7 +6,7 @@ from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     url('^dashboard/$', views.DashboardView.as_view(), name='DashboardView'),
-    url('^dashboard/(?P<month>[0-9]+)/(?P<year>[0-9]+)/$', views.DashboardView.as_view(), name='DashboardView'),
+    url('^dashboard/(?P<account_id>[0-9]+)/$', views.DashboardView.as_view(), name='DashboardView'),
     url(r'^signup/$', views.SignUpView.as_view(), name='SignupView'),
     url(r'^login/$', auth_views.LoginView.as_view(), name='LoginView'),
     url(r'^logout/$', auth_views.LogoutView.as_view(), name='LogoutView'),

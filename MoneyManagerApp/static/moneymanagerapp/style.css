@@ -54,6 +54,31 @@ input[type="button"],input[type="submit"] {
 	font-weight: bold;
 }
 
+.account {
+	color: black;
+	padding: 8px;
+	width: 200px;
+	border-radius: 6px;
+	border: 1px solid #f9f9f9;
+	box-shadow: 0px 0px 5px #f9f9f9;
+	margin: 11px;
+	display: inline-block;
+}
+
+.selected {
+	border: 2px solid #1a8bff;
+}
+
+a {
+	color: black;
+	text-decoration: none;
+}
+
+.accountName {
+	font-size: 19px;
+	font-weight: bold;
+}
+
 .transaction {
 	padding: 12px;
 	margin-top: 11px;

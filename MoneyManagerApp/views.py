@@ -22,10 +22,15 @@ class DashboardView(LoginRequiredMixin, generic.ListView):
 
     def get_context_data(self, **kwargs):
         context = super(DashboardView, self).get_context_data(**kwargs)
-        today = datetime.datetime.now()
-        month = today.month
-        print(month)
-        context['account_list'] = self.request.user.accounts.all()
+        accounts = self.request.user.accounts.all()
+        context['account_list'] = accounts
+        context['transactions'] = None
+        id = self.kwargs.get('account_id', None)
+        if id is None:
+            kwargs.update({'account_id': accounts.first().id})
+            id = self.kwargs.get('account_id', None)
+        if accounts.filter(id=id).exists():
+            context['transactions'] = accounts.get(id=id).transactions.order_by('-date')#.filter(date__month=1)
         return context
 
 class SignUpView(CreateView):
@@ -84,6 +89,11 @@ class TransactionCreateView(LoginRequiredMixin, CreateView):
     form_class = TransactionCreationForm
     template_name = 'moneymanagerapp/transaction_form.html'
     success_url = reverse_lazy('DashboardView')
+
+    def get_form(self, *args, **kwargs):
+        form = super(TransactionCreateView, self).get_form(*args, **kwargs)
+        form.fields['account'].queryset = self.request.user.accounts
+        return form
 
     def get_form_kwargs(self):
         kwargs = super(TransactionCreateView, self).get_form_kwargs()

@@ -2,13 +2,32 @@
 {% load i18n %}
 {% block title %}{% trans "Dashboard" %}{% endblock %}
 {% block content %}
+<h1>{% trans "Dashboard" %}</h1>
 <a href="{% url 'AccountCreateView' %}" ><input type="button" value="{% trans 'Create account' %}"></a>
 <a href="{% url 'TransactionCreateView' type='income' %}" ><input type="button" value="{% trans 'Add income' %}"></a>
 <a href="{% url 'TransactionCreateView' type='outcome' %}" ><input type="button" value="{% trans 'Add outcome' %}"></a>
+<h3>{% trans "Accounts" %}</h3>
+<div id="accounts">
 {% for account in account_list %}
-<div>{{ account.name }} {{ account.print_balance }} <a href="{% url 'AccountDeleteView' account.id %}" ><input type="button" value="{% trans 'Delete account' %}"></a></div>
-{% for transaction in account.transactions.all reversed %}
-<div class="transaction">{{ transaction.date|date:'Y-m-d' }} {{ transaction.get_category_display }} <span style="color:{% if transaction.type == 'I' %} green {% else %} red {% endif %};">{{ transaction.print_value }}</span> {{ transaction.details }} <a href="{% url 'TransactionDeleteView' transaction.id %}" ><input type="button" value="{% trans 'Delete transaction' %}"></a></div>
+   <a href="{% url 'DashboardView' account.id %}">
+      <div class="account {% if view.kwargs.account_id|add:0 == account.id or view.kwargs.account_id is None and forloop.first %}selected{% endif %}">
+      <div class="accountName">{{ account.name }}</div>
+      <div class="accountBalance">{{ account.print_balance }}</div>
+      <a href="{% url 'AccountDeleteView' account.id %}">
+      <input type="button" value="{% trans 'Delete account' %}"></a>
+   </div></a>
 {% endfor %}
-{% endfor %}
+</div>
+
+<h3>{% trans "Transactions" %}</h3>
+<div id="transactions">
+      {% for transaction in transactions %}
+      <div class="transaction">
+         {{ transaction.date|date:'Y-m-d' }} {{ transaction.get_category_display }}
+         <span style="color:{% if transaction.type == 'I' %} green {% else %} red {% endif %};">{{ transaction.print_value }}</span>
+         {{ transaction.details }} <a href="{% url 'TransactionDeleteView' transaction.id %}" ><input type="button" value="{% trans 'Delete transaction' %}"></a>
+      </div>
+      {% endfor %}
+
+</div>
 {% endblock %}
