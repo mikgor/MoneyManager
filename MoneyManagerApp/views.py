@@ -26,10 +26,9 @@ class DashboardView(LoginRequiredMixin, generic.ListView):
         context['account_list'] = accounts
         context['transactions'] = None
         id = self.kwargs.get('account_id', None)
-        if id is None:
-            kwargs.update({'account_id': accounts.first().id})
-            id = self.kwargs.get('account_id', None)
-        if accounts.filter(id=id).exists():
+        if id is None and len(accounts) > 0:
+            id = accounts.first().id
+        if id is not None and accounts.filter(id=id).exists():
             context['transactions'] = accounts.get(id=id).transactions.order_by('-date')#.filter(date__month=1)
         return context
 
@@ -51,6 +50,7 @@ class AccountCreateView(LoginRequiredMixin, CreateView):
 
 class AccountDeleteView(LoginRequiredMixin, DeleteView):
     model = Account
+    template_name = 'moneymanagerapp/account_confirm_delete.html'
     success_url = reverse_lazy('DashboardView')
 
     def get_object(self, queryset=None):
@@ -69,6 +69,7 @@ class AccountDeleteView(LoginRequiredMixin, DeleteView):
 
 class TransactionDeleteView(LoginRequiredMixin, DeleteView):
     model = Transaction
+    template_name = 'moneymanagerapp/transaction_confirm_delete.html'
     success_url = reverse_lazy('DashboardView')
 
     def get_object(self, queryset=None):
