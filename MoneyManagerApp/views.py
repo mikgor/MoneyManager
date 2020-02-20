@@ -25,11 +25,28 @@ class DashboardView(LoginRequiredMixin, generic.ListView):
         accounts = self.request.user.accounts.all()
         context['account_list'] = accounts
         context['transactions'] = None
+        context['income'] = 0
+        context['outcome'] = 0
+        selected_account = None
         id = self.kwargs.get('account_id', None)
         if id is None and len(accounts) > 0:
-            id = accounts.first().id
-        if id is not None and accounts.filter(id=id).exists():
-            context['transactions'] = accounts.get(id=id).transactions.order_by('-date')#.filter(date__month=1)
+            selected_account = accounts.first()
+            id = selected_account.id
+        else:
+            if accounts.filter(id=id).exists():
+                selected_account = accounts.get(id=id)
+        if selected_account:
+            currency = selected_account.currency
+            income = 0
+            outcome = 0
+            context['transactions'] = selected_account.transactions.order_by('-date')#.filter(date__month=1)
+            for transaction in context['transactions']:
+                if transaction.type == 'I':
+                    income = income + transaction.amount
+                else:
+                    outcome = outcome - transaction.amount
+            context['income'] = currency.display(income)
+            context['outcome'] = currency.display(outcome)
         return context
 
 class SignUpView(CreateView):

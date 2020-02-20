@@ -7,27 +7,81 @@
 <a href="{% url 'TransactionCreateView' type='income' %}" ><input type="button" value="{% trans 'Add income' %}"></a>
 <a href="{% url 'TransactionCreateView' type='outcome' %}" ><input type="button" value="{% trans 'Add outcome' %}"></a>
 <h3>{% trans "Accounts" %}</h3>
-<div id="accounts">
-{% for account in account_list %}
-   <a href="{% url 'DashboardView' account.id %}">
-      <div class="account {% if view.kwargs.account_id|add:0 == account.id or view.kwargs.account_id is None and forloop.first %}selected{% endif %}">
-      <div class="accountName">{{ account.name }}</div>
-      <div class="accountBalance">{{ account.print_balance }}</div>
-      <a href="{% url 'AccountDeleteView' account.id %}">
-      <input type="button" value="{% trans 'Delete account' %}"></a>
-   </div></a>
-{% endfor %}
-</div>
-
-<h3>{% trans "Transactions" %}</h3>
-<div id="transactions">
-      {% for transaction in transactions %}
-      <div class="transaction">
-         {{ transaction.date|date:'Y-m-d' }} {{ transaction.get_category_display }}
-         <span style="color:{% if transaction.type == 'I' %} green {% else %} red {% endif %};">{{ transaction.print_value }}</span>
-         {{ transaction.details }} <a href="{% url 'TransactionDeleteView' transaction.id %}" ><input type="button" value="{% trans 'Delete transaction' %}"></a>
+<div id="accountsAndNavigation">
+   <div class="accountContainerScrollLeft hidden"><</div>
+   <div class="accountContainerScrollRight hidden">></div>
+      <div id="accounts">
+      <div id="accountsContainer">
+         {% for account in account_list %}
+            <a href="{% url 'DashboardView' account.id %}">
+               <div class="account {% if view.kwargs.account_id|add:0 == account.id %}selected{% endif %}">
+               <div class="accountName">{{ account.name }}</div>
+               <div class="accountBalance">{{ account.print_balance }}</div>
+               <a href="{% url 'AccountDeleteView' account.id %}">
+               <input type="button" value="{% trans 'Delete account' %}"></a>
+            </div></a>
+         {% endfor %}
       </div>
-      {% endfor %}
-
+   </div>
 </div>
+{% if transactions %}
+   <h4>{% trans "Income" %}: {{ income }}</h4>
+   <h4>{% trans "Outcome" %}: {{ outcome }}</h4>
+   <h3>{% trans "Transactions" %}</h3>
+   <div id="transactions">
+         {% for transaction in transactions %}
+         <div class="transaction">
+            {{ transaction.date|date:'Y-m-d' }} {{ transaction.get_category_display }}
+            <span style="color:{% if transaction.type == 'I' %} green {% else %} red {% endif %};">{{ transaction.print_value }}</span>
+            {{ transaction.details }} <a href="{% url 'TransactionDeleteView' transaction.id %}" ><input type="button" value="{% trans 'Delete transaction' %}"></a>
+         </div>
+         {% endfor %}
+   </div>
+{% else %}
+{% trans "Create your first account" %}
+{% endif %}
+<script>
+   function accountsNavigation() {
+       var $accountsScrollPos = $("#accounts").scrollLeft();
+       var $leftScroll = $('.accountContainerScrollLeft')
+       var $rightScroll = $('.accountContainerScrollRight')
+       if(!(('ontouchstart' in window) || (navigator.MaxTouchPoints > 0) || (navigator.msMaxTouchPoints > 0))) {
+          if ($accountsScrollPos > 0) {
+              $leftScroll.removeClass("hidden");
+          } else {
+              $leftScroll.addClass("hidden");
+          }
+          if ($(window).width() + $accountsScrollPos < $("#accountsContainer").width()) {
+              $rightScroll.removeClass("hidden");
+          } else {
+              $rightScroll.addClass("hidden");
+          }
+       }
+   }
+
+   $(document).ready(function() {
+       accountsNavigation();
+       $(window).resize(function() {
+           accountsNavigation();
+       });
+   });
+
+   $("#accounts").scroll(function() {
+       accountsNavigation();
+   });
+
+   $('.accountContainerScrollLeft').click(function(event) {
+       event.preventDefault();
+       $('#accounts').animate({
+           scrollLeft: "-=216px"
+       }, "slow");
+   });
+
+   $('.accountContainerScrollRight').click(function(event) {
+       event.preventDefault();
+       $('#accounts').animate({
+           scrollLeft: "+=216px"
+       }, "slow");
+   });
+</script>
 {% endblock %}

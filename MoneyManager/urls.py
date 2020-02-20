@@ -5,6 +5,7 @@ from django.conf.urls import url
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
+    url('^$', views.DashboardView.as_view(), name='DashboardView'),
     url('^dashboard/$', views.DashboardView.as_view(), name='DashboardView'),
     url('^dashboard/(?P<account_id>[0-9]+)/$', views.DashboardView.as_view(), name='DashboardView'),
     url(r'^signup/$', views.SignUpView.as_view(), name='SignupView'),

@@ -14,6 +14,9 @@ class Currency(models.Model):
     def __str__(self):
         return '%s (%s)' % (self.name, self.symbol)
 
+    def display(self, amount):
+        return '%s%.2f' % (self.symbol, amount) if self.prefix else '%.2f%s' % (amount, self.symbol)
+
 class User(AbstractUser):
     pass
 
@@ -36,7 +39,7 @@ class Account(models.Model):
     type = models.CharField(_('Account type'), max_length=2, choices=ACCOUNT_TYPE_CHOICES, default=BANKACCOUNT)
 
     def print_balance(self):
-        return '%s%.2f' % (self.currency.symbol, self.balance) if self.currency.prefix else '%.2f%s' % (self.balance, self.currency.symbol)
+        return self.currency.display(self.balance)
 
     def set_balance(self, transaction):
         if transaction.account.id == self.id:
@@ -79,4 +82,4 @@ class Transaction(models.Model):
 
     def print_value(self):
         currency = self.account.currency
-        return '%s%.2f' % (currency.symbol, self.amount) if currency.prefix else '%.2f%s' % (self.amount, currency.symbol)
+        return currency.display(self.amount)
