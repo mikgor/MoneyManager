@@ -1,1 +1,2 @@
-"# MoneyManager" 
+# MoneyManager
+Financial management web application.
